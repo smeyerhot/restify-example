@@ -1,6 +1,7 @@
 version: '2.1'
 orbs:
-  eb: circleci/aws-elastic-beanstalk@1.0.0
+  # docs have error: https://circleci.com/developer/orbs/orb/circleci/aws-elastic-beanstalk and code says 1.0.0 
+  eb: circleci/aws-elastic-beanstalk@2.0.1
 jobs:
   build:
     docker:
