@@ -44,6 +44,7 @@ workflows:
       - build
       - eb/deploy:
           context: aws-creds
+          application-name: eb-test
           environment-name: restify-test-eb
           filters:
             branches:
