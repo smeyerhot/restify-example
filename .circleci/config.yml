@@ -22,7 +22,8 @@ jobs:
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:6379 -timeout 1m
-      - run: sudo apt install -y mysql-client || true
+      - run: 
+          command: sudo apt install -y mysql-client || true
       - run: |
           npm install
           mysql -e 'CREATE DATABASE scratch_test;'
