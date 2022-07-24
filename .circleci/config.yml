@@ -10,8 +10,8 @@ jobs:
       - image: "cimg/mysql:5.7"
     steps:
       - checkout
-      - node/install
       - run: |
+          npm install
           mysql -e 'CREATE DATABASE scratch_test;'
           npm start&
           export API_PID=$!
@@ -20,14 +20,11 @@ workflows:
   elastic-beanstalk-workflow:
     jobs:
       - build
-      - node/test
       - eb/deploy:
           context: aws-creds
-          environment-name: blah
+          environment-name: restify-test-eb
           filters:
             branches:
               only:
                 - develop
           label: version-<<pipeline.number>>
-          requires:
-            - node/test
