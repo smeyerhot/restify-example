@@ -8,10 +8,8 @@ jobs:
       - image: "cimg/redis:6.2.6"
       - image: "cimg/mysql:5.7.36"  
         environment:
-          MYSQL_ROOT_PASSWORD: rootpw
-          MYSQL_DATABASE: test_db
-          MYSQL_USER: user
-          MYSQL_PASSWORD: passw0rd
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: 
       
     steps:
       - checkout
@@ -29,7 +27,8 @@ jobs:
           command: dockerize -wait tcp://localhost:6379 -timeout 1m
       - run: 
           sudo apt-get install default-mysql-client
-          mysql -h 127.0.0.1 -u user -p passw0rd test_db < employee.sql
+          mysql -h 127.0.0.1 -u root -e "create database test_db"
+          mysql -h 127.0.0.1 -u root test_db < employee.sql
       - run: |
           npm install
           npm start&
