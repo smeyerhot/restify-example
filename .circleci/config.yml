@@ -33,10 +33,10 @@ jobs:
           npm install
           npm start&
           export API_PID=$!
-      - run: |
-          npm test
-          make smoke
-          kill $API_PID
+      # - run: |
+      #     npm test
+      #     make smoke
+      #     kill $API_PID
 
 workflows:
   elastic-beanstalk-workflow:
