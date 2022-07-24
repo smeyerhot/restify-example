@@ -3,6 +3,7 @@ orbs:
   eb: circleci/aws-elastic-beanstalk@1.0.0
 jobs:
   build:
+    working_directory: .
     docker:
       - image: "cimg/base:stable"
       - image: "cimg/node:16.15.0"
@@ -10,6 +11,17 @@ jobs:
       - image: "cimg/mysql:5.7.36"
     steps:
       - checkout
+      - run:
+          name: install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.6.1
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:6379 -timeout 1m
       - run: |
           npm install
           mysql -e 'CREATE DATABASE scratch_test;'
