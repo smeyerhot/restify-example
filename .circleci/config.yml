@@ -21,6 +21,7 @@ jobs:
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:6379 -timeout 1m
+      - run: sudo apt-get install mysql-server
       - run: sudo apt-get install mysql-client
       - run: |
           npm install
