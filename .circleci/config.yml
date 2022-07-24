@@ -7,6 +7,11 @@ jobs:
       - image: "cimg/node:16.15.0"
       - image: "cimg/redis:6.2.6"
       - image: "cimg/mysql:5.7.36"
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: ''
+          DB_ROOT_USER: root
+          DB_PASS: ""
     steps:
       - checkout
       - run:
@@ -22,8 +27,7 @@ jobs:
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:6379 -timeout 1m
-      - run: 
-          command: sudo apt install -y mysql-client || true
+      - run: sudo apt-get install mysql-client
       - run: |
           npm install
           mysql -e 'CREATE DATABASE scratch_test;'
