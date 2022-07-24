@@ -1,0 +1,33 @@
+version: '2.1'
+orbs:
+  eb: circleci/aws-elastic-beanstalk@1.0.0
+jobs:
+  build:
+    docker:
+      # - image: "cimg/base:stable"
+      - image: "cimg/node:16.15.0"
+      - image: "cimg/redis:6.2.6"
+      - image: "cimg/mysql:5.7"
+    steps:
+      - checkout
+      - node/install
+      - run: |
+          mysql -e 'CREATE DATABASE scratch_test;'
+          npm start&
+          export API_PID=$!
+
+workflows:
+  elastic-beanstalk-workflow:
+    jobs:
+      - build
+      - node/test
+      - eb/deploy:
+          context: aws-creds
+          environment-name: blah
+          filters:
+            branches:
+              only:
+                - develop
+          label: version-<<pipeline.number>>
+          requires:
+            - node/test
