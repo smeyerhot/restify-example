@@ -6,7 +6,13 @@ jobs:
     docker:
       - image: "cimg/node:16.15.0"
       - image: "cimg/redis:6.2.6"
-      - image: "cimg/mysql:5.7.36"
+      - image: "cimg/mysql:5.7.36"  
+        environment:
+          MYSQL_ROOT_PASSWORD: rootpw
+          MYSQL_DATABASE: test_db
+          MYSQL_USER: user
+          MYSQL_PASSWORD: passw0rd
+      
     steps:
       - checkout
       - run: sudo apt-get update
@@ -21,13 +27,17 @@ jobs:
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:6379 -timeout 1m
-      - run: sudo apt-get install mysql-server
-      - run: sudo apt-get install mysql-client
+      - run: 
+          sudo apt-get install default-mysql-client
+          mysql -h 127.0.0.1 -u user -ppassw0rd test_db < employee.sql
       - run: |
           npm install
-          mysql -uroot -e 'CREATE DATABASE scratch_test;'
           npm start&
           export API_PID=$!
+      - run: |
+          npm test
+          make smoke
+          kill $API_PID
 
 workflows:
   elastic-beanstalk-workflow:
