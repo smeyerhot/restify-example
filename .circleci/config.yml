@@ -25,7 +25,7 @@ jobs:
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:6379 -timeout 1m
-      - run: 
+      - run: |
           sudo apt-get install default-mysql-client
           mysql -h 127.0.0.1 -u root -e "create database test_db"
           mysql -h 127.0.0.1 -u root test_db < employee.sql
