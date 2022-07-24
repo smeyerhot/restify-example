@@ -3,7 +3,7 @@ orbs:
   eb: circleci/aws-elastic-beanstalk@1.0.0
 jobs:
   build:
-    working_directory: .
+    working_directory: /home/circleci
     docker:
       - image: "cimg/base:stable"
       - image: "cimg/node:16.15.0"
