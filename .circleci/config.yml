@@ -29,7 +29,7 @@ jobs:
           command: dockerize -wait tcp://localhost:6379 -timeout 1m
       - run: 
           sudo apt-get install default-mysql-client
-          mysql -h 127.0.0.1 -u user -ppassw0rd test_db < employee.sql
+          mysql -h 127.0.0.1 -u user -p passw0rd test_db < employee.sql
       - run: |
           npm install
           npm start&
