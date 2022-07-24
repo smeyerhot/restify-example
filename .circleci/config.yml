@@ -9,7 +9,7 @@ jobs:
       - image: "cimg/mysql:5.7.36"  
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_ROOT_PASSWORD: 
+          MYSQL_ROOT_PASSWORD: ''
       
     steps:
       - checkout
