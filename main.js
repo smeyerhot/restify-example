@@ -3,7 +3,6 @@
  */
 const config  = require('./config')
 const restify = require('restify')
-const mysql = require('mysql')
 const redis = require('redis')
 
 
@@ -61,9 +60,9 @@ server.put('/employees', function (req, res) {
 
 
 server.get('/', function(req, res){
-    console.log('Welcome Nodejs restify');
+    res.send('Welcome Nodejs restify');
 });
 
-server.listen(3001, function () {
+server.listen(80, function () {
   console.log('%s listening at %s', server.name, server.url);
 });
